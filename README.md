@@ -8,8 +8,9 @@
 4. Debes crear un frontEnd en react o angular.
 5. Debes crear una pequeña aplicación de pacientes.
 6. Tienes 2 dias para entregar el laboratorio.
-7. Debes subir el repositorio como una nueva branch en el repositorio de la empresa.
+7. Debes subir el repositorio a su Github.
 8. Se tomará en cuanta ir subiendo los cambios a medida que vayas avanzando.
+9. Enviar el link del repositorio al correo: `andres.sosa@albatrosservices.com`
 
 ## Criterios
 
