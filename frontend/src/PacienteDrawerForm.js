@@ -11,33 +11,34 @@ const {Option} = Select;
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 
-
 function PacienteDrawerForm({showDrawer, setShowDrawer, fetchPacientes}) {
 
     const onCLose = () => setShowDrawer(false);
     const [submitLoading, setSubmitLoading] = useState(false);
 
     const onFinish = paciente => {
+        paciente.emails = emails.map((email) => ({ email }));
+        paciente.telefonos = telefonos.map((telefono) => ({ telefono }));
 
-        alert(JSON.stringify(paciente, null, 2));
+          //alert(JSON.stringify(paciente, null, 2));
 
-        // setSubmitLoading(true);
-        //
-        // addNewPaciente(paciente)
-        //     .then(() => {
-        //         console.log("Paciente added");
-        //         setShowDrawer(false);
-        //         fetchPacientes();
-        //         successNotification("Paciente agregado");
-        //     })
-        //     .catch(() => {
-        //         console.log("Paciente not added");
-        //         errorNotification("Paciente no agregado");
-        //         setShowDrawer(false);
-        //     }).finally(() => {
-        //     setSubmitLoading(false);
-        //    }
-      //)
+        setSubmitLoading(true);
+
+        addNewPaciente(paciente)
+            .then(() => {
+                console.log("Paciente added");
+                setShowDrawer(false);
+                fetchPacientes();
+                successNotification("Paciente agregado");
+            })
+            .catch(() => {
+                console.log("Paciente not added");
+                errorNotification("Paciente no agregado");
+                setShowDrawer(false);
+            }).finally(() => {
+            setSubmitLoading(false);
+           }
+      )
     };
     const [date, setDate] = useState(null);
 
