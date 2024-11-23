@@ -1,6 +1,7 @@
 package com.demo.backend_mongo.controller;
 
 import com.demo.backend_mongo.model.SintomaPaciente;
+import com.demo.backend_mongo.request.NuevoSintomaPaciente;
 import com.demo.backend_mongo.service.SintomasPacientesService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,7 +24,7 @@ public class SintomasPacienteController {
     }
 
     @PostMapping("/paciente/sintoma")
-    public ResponseEntity<Object> addSintoma(@RequestBody SintomaPaciente sintoma) {
+    public ResponseEntity<Object> addSintoma(@RequestBody NuevoSintomaPaciente sintoma) {
       return sintomasPacientesService.createSintomaPaciente(sintoma);
     }
 

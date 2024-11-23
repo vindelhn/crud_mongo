@@ -4,6 +4,7 @@ import com.demo.backend_mongo.model.Paciente;
 import com.demo.backend_mongo.model.Sintoma;
 import com.demo.backend_mongo.repository.PacienteReposistory;
 import com.demo.backend_mongo.repository.SintomaReposistory;
+import com.demo.backend_mongo.request.NuevoSintoma;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +18,17 @@ public class SintomasService {
     @Autowired
     private SintomaReposistory sintomaReposistory;
 
-    public ResponseEntity<Object> createSintoma(Sintoma sintoma) {
+    public ResponseEntity<Object> createSintoma(NuevoSintoma sintoma) {
         try {
-            sintomaReposistory.save(sintoma);
+
+            Sintoma last = sintomaReposistory.findTopByOrderByIdDesc();
+
+            Sintoma newSintoma = new Sintoma();
+            newSintoma.setId(last.getId() + 1);
+            newSintoma.setNombre(sintoma.getNombre());
+            newSintoma.setDescripcion(sintoma.getDescripcion());
+
+            sintomaReposistory.save(newSintoma);
             return new ResponseEntity<>(null, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

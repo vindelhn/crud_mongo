@@ -1,6 +1,7 @@
 package com.demo.backend_mongo.controller;
 
 import com.demo.backend_mongo.model.Paciente;
+import com.demo.backend_mongo.request.NuevoPaciente;
 import com.demo.backend_mongo.service.PacientesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,7 @@ public class PacientesController {
     }
 
     @PostMapping("/paciente")
-    public ResponseEntity<Object> addPaciente(@RequestBody Paciente paciente) {
+    public ResponseEntity<Object> addPaciente(@RequestBody NuevoPaciente paciente) {
       return pacientesService.createPaciente(paciente);
     }
 

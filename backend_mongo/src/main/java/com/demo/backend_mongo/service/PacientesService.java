@@ -4,6 +4,7 @@ import com.demo.backend_mongo.model.Paciente;
 import com.demo.backend_mongo.model.Sintoma;
 import com.demo.backend_mongo.repository.PacienteReposistory;
 import com.demo.backend_mongo.repository.SintomaReposistory;
+import com.demo.backend_mongo.request.NuevoPaciente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +19,20 @@ public class PacientesService {
     @Autowired
     private PacienteReposistory pacienteReposistory;
 
-    public ResponseEntity<Object> createPaciente(Paciente paciente) {
+    public ResponseEntity<Object> createPaciente(NuevoPaciente paciente) {
         try {
-            pacienteReposistory.save(paciente);
+
+            Paciente last = pacienteReposistory.findTopByOrderByIdDesc();
+
+            Paciente newPaciente = new Paciente();
+            newPaciente.setId(last.getId() + 1 );
+            newPaciente.setNombre(paciente.getNombre());
+            newPaciente.setApellido(paciente.getApellido());
+            newPaciente.setFechaNacimiento(paciente.getFechaNacimiento());
+            newPaciente.setTelefonos(paciente.getTelefonos());
+            newPaciente.setEmails(paciente.getEmails());
+
+            pacienteReposistory.save(newPaciente);
             return new ResponseEntity<>(null, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
