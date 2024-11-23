@@ -10,57 +10,55 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public class PacientesService {
+public class SintomasService {
 
     @Autowired
-    private PacienteReposistory pacienteReposistory;
+    private SintomaReposistory sintomaReposistory;
 
-    public ResponseEntity<Object> createPaciente(Paciente paciente) {
+    public ResponseEntity<Object> createSintoma(Sintoma sintoma) {
         try {
-            pacienteReposistory.save(paciente);
+            sintomaReposistory.save(sintoma);
             return new ResponseEntity<>(null, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    public ResponseEntity<Object> updatePaciente(Paciente dto) {
+    public ResponseEntity<Object> updateSintoma(Sintoma dto) {
         try {
             Long id = dto.getId();
-            Paciente paciente = pacienteReposistory.findById( id ).orElseThrow(() -> new IllegalStateException(
+            Sintoma sintoma = sintomaReposistory.findById( id ).orElseThrow(() -> new IllegalStateException(
                             "record with id "+id+" does not exist"
                     )
             );
-            paciente.setNombre(dto.getNombre());
-            paciente.setApellido(dto.getApellido());
-            paciente.setFechaNacimiento(dto.getFechaNacimiento());
-            paciente.setTelefonos(dto.getTelefonos());
-            paciente.setEmails(dto.getEmails());
+            sintoma.setNombre(dto.getNombre());
+            sintoma.setDescripcion(dto.getDescripcion());
 
-            pacienteReposistory.save(paciente);
+
+
+            sintomaReposistory.save(sintoma);
             return new ResponseEntity<>(null, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    public ResponseEntity<Object> borrarPaciente(Long pacienteId){
+    public ResponseEntity<Object> borrarSintoma(Long sintomaId){
         try {
 
-            pacienteReposistory.deleteById(pacienteId);
+            sintomaReposistory.deleteById(sintomaId);
             return new ResponseEntity<>(null, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    public ResponseEntity<Object> encotrarPacientes() {
+    public ResponseEntity<Object> encotrarSintomas() {
         try {
-            List<Paciente> result = null;
-            result =  pacienteReposistory.findAll();
+            List<Sintoma> result = null;
+            result =  sintomaReposistory.findAll();
 
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception e) {

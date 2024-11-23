@@ -28,7 +28,7 @@ public class PacientesController {
 
     @PutMapping("/paciente")
     public ResponseEntity<Object> updPaciente(@RequestBody Paciente paciente) {
-        return pacientesService.createPaciente(paciente);
+        return pacientesService.updatePaciente(paciente);
     }
 
     @DeleteMapping("/paciente/{pacienteId}")
