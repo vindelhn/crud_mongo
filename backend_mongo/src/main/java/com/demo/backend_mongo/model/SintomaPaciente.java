@@ -1,19 +1,18 @@
 package com.demo.backend_mongo.model;
 
-
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document("sintoma")
+@Document("sintomas_pacientes")
 @Getter
 @Setter
-public class Sintoma {
+public class SintomaPaciente {
 
     @Id
     private Long id;
-    private String nombre;
-    private String descripcion;
+    private Long pacienteId;
+    private Long sintomaId;
 
 }

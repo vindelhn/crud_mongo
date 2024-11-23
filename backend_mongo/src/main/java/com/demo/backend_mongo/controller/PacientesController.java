@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller("api/v1")
+@RestController
+@RequestMapping("api/v1/pacientes")
 public class PacientesController {
 
     private final PacientesService pacientesService;
@@ -36,7 +39,7 @@ public class PacientesController {
         return pacientesService.borrarPaciente(pacienteId);
     }
 
-    @GetMapping ("/pacientes")
+    @GetMapping ("/todos")
     public ResponseEntity<Object> getPacientes() {
         return pacientesService.encotrarPacientes();
     }
