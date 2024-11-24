@@ -1,5 +1,7 @@
 package com.demo.backend_mongo.controller;
 
+
+import com.demo.backend_mongo.dto.SintomaPacienteDTO;
 import com.demo.backend_mongo.model.SintomaPaciente;
 import com.demo.backend_mongo.request.NuevoSintomaPaciente;
 import com.demo.backend_mongo.service.SintomasPacientesService;
@@ -13,13 +15,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequestMapping("api/v1/sintomas/paciente")
 public class SintomasPacienteController {
 
     private final SintomasPacientesService sintomasPacientesService;
 
-    public SintomasPacienteController(SintomasPacientesService sintomasPacientesService) {
+    public SintomasPacienteController(SintomasPacientesService sintomasPacientesService ) {
         this.sintomasPacientesService = sintomasPacientesService;
     }
 
@@ -36,6 +41,11 @@ public class SintomasPacienteController {
     @GetMapping ("paciente/sintomas/{pacienteId}")
     public ResponseEntity<Object> getSintomas(@PathVariable Long pacienteId) {
         return sintomasPacientesService.encotrarSintomasPaciente(pacienteId);
+    }
+
+    @GetMapping("/todos")
+    public List<SintomaPacienteDTO> obtenerSintomasYPacientes() {
+        return sintomasPacientesService.obtenerSintomasPorPaciente();
     }
 
 

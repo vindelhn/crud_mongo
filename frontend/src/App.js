@@ -23,6 +23,8 @@ import {
 
 import './App.css';
 import Pacientes from "./Pacientes";
+import Sintomas from "./Sintomas";
+import SintomasPacientes from "./SintomasPacientes";
 
 const {Header, Content, Footer, Sider} = Layout;
 const {SubMenu} = Menu;
@@ -77,14 +79,12 @@ function App() {
                     )}
                     {selectedMenuKey === '2' && (
                         <div>
-                            <h2>Content for Option 2</h2>
-                            {/* You can put the actual content for Option 2 here */}
+                           <Sintomas/>
                         </div>
                     )}
                     {selectedMenuKey === '3' && (
                         <div>
-                            <h2>Content for Option 3</h2>
-                            {/* You can put the actual content for Option 3 here */}
+                            <SintomasPacientes/>
                         </div>
                     )}
 

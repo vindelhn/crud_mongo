@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react'
-import {getAllPacientes,deletePaciente} from "./client";
+import {getAllSintomas,deleteSintoma} from "./client";
 import {
   Layout,
   Menu,
@@ -19,12 +19,10 @@ import {
   LoadingOutlined,
   PlusOutlined
 } from '@ant-design/icons';
-import PacienteDrawerForm from "./PacienteDrawerForm";
 
 import './App.css';
 import {errorNotification, successNotification} from "./Notification";
-
-
+import SintomaDrawerForm from "./SintomaDrawerForm";
 
 const {Header, Content, Footer, Sider} = Layout;
 const {SubMenu} = Menu;
@@ -38,14 +36,14 @@ const TheAvatar = ({name}) => {
 }
 
 
-const removePaciente = (pacienteId, callback) => {
-  deletePaciente(pacienteId).then(() => {
-    successNotification("Paciente borrado");
+const removeSintoma = (sintomaId, callback) => {
+  deleteSintoma(sintomaId).then(() => {
+    successNotification("Sintoma borrado");
     callback();
   });
 }
 
-const columns = fetchPacientes => [
+const columns = fetchSintomas => [
 
   {
     title: 'Id',
@@ -58,24 +56,19 @@ const columns = fetchPacientes => [
     key: 'nombre',
   },
   {
-    title: 'Apellido',
-    dataIndex: 'apellido',
-    key: 'apellido',
-  },
-  {
-    title: 'FechaNac',
-    dataIndex: 'fechaNacimiento',
-    key: 'fechaNacimiento',
+    title: 'Descripcion',
+    dataIndex: 'descripcion',
+    key: 'descripcion',
   },
   {
     title: 'Actions',
     key: 'actions',
-    render: (text, paciente) =>
+    render: (text, sintoma) =>
         <Radio.Group>
           <Popconfirm
               placement='topRight'
-              title={`Realmente quiere borrar el paciente?`}
-              onConfirm={() => removePaciente(paciente.id, fetchPacientes)}
+              title={`Realmente quiere borrar el sintoma?`}
+              onConfirm={() => removeSintoma(sintoma.id, fetchSintomas)}
               okText='Si'
               cancelText='No'>
             <Radio.Button value="small">Borrar</Radio.Button>
@@ -87,19 +80,19 @@ const columns = fetchPacientes => [
 
 const antIcon = <LoadingOutlined style={{fontSize: 24}} spin/>;
 
-function Pacientes() {
-  const [pacientes, setPacientes] = useState([]);
+function Sintomas() {
+  const [sintomas, setSintomas] = useState([]);
   const [collapsed, setCollapsed] = useState(false);
   const [fetching, setFetching] = useState(true);
   const [showDrawer, setShowDrawer] = useState(false);
   const [show, setShow] = useState(true);
 
-  const fetchPacientes = () =>
-      getAllPacientes()
+  const fetchSintomas = () =>
+      getAllSintomas()
           .then(res => res.json())
           .then(data => {
             console.log(data);
-            setPacientes(data);
+            setSintomas(data);
             setFetching(false);
           }).catch(err => {
         console.log(err.response);
@@ -112,51 +105,51 @@ function Pacientes() {
 
   useEffect(() => {
     console.log("component is mounted");
-    fetchPacientes();
+    fetchSintomas();
   }, []);
 
-  const renderPacientes = () => {
+  const renderSintomas = () => {
     if (fetching) {
       return <Spin indicator={antIcon}/>
     }
-    if (pacientes.length <= 0) {
+    if (sintomas.length <= 0) {
       return <>
         <Button
             onClick={() => setShowDrawer(!showDrawer)}
             type="primary" shape="round" icon={<PlusOutlined/>} size="small">
-          Nuevo Paciente
+          Nuevo Sintoma
         </Button>
-        <PacienteDrawerForm
+        <SintomaDrawerForm
             showDrawer={showDrawer}
             setShowDrawer={setShowDrawer}
-            fetchPacientes={fetchPacientes}
+            fetchPacientes={fetchSintomas}
         />
         <Empty/>
       </>
     }
     return <>
-      <PacienteDrawerForm
+      <SintomaDrawerForm
           showDrawer={showDrawer}
           setShowDrawer={setShowDrawer}
-          fetchPacientes={fetchPacientes}
+          fetchPacientes={fetchSintomas}
       />
       <Table
-          dataSource={pacientes}
-          columns={columns(fetchPacientes)}
+          dataSource={sintomas}
+          columns={columns(fetchSintomas)}
           bordered
           title={() =>
               <>
                 <Button
                     onClick={() => setShowDrawer(!showDrawer)}
                     type="primary" shape="round" icon={<PlusOutlined/>} size="small">
-                  Nuevo Paciente
+                  Nuevo Sintoma
                 </Button>
 
                 <br/><br/>
-                <Tag>pacientes</Tag>
+                <Tag>sintomas</Tag>
                 <Badge
                     className="site-badge-count-109"
-                    count={  pacientes.length}
+                    count={  sintomas.length}
                     style={{ backgroundColor: '#52c41a' }}
                 />
 
@@ -173,28 +166,16 @@ function Pacientes() {
   }
 
   return <Layout style={{minHeight: '100vh'}}>
-    <Sider collapsible collapsed={collapsed}
-           onCollapse={setCollapsed}>
-      <div className="logo"/>
-      <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-        <Menu.Item key="1" icon={<PieChartOutlined/>}>
-          Option 1
-        </Menu.Item>
-        <Menu.Item key="2" icon={<DesktopOutlined/>}>
-          Option 2
-        </Menu.Item>
-      </Menu>
-    </Sider>
-    <Layout className="site-layout">
-      <Header className="site-layout-background" style={{padding: 0}}/>
-      <Content style={{margin: '0 16px'}}>
-        <div className="site-layout-background" style={{padding: 24, minHeight: 360}}>
-          {renderPacientes()}
-        </div>
+
+
+      <Content >
+
+          {renderSintomas()}
+
       </Content>
 
-    </Layout>
+
   </Layout>
 }
 
-export default Pacientes;
+export default Sintomas;

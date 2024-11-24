@@ -15,7 +15,7 @@ function PacienteDrawerForm({showDrawer, setShowDrawer, fetchPacientes}) {
 
     const onCLose = () => setShowDrawer(false);
     const [submitLoading, setSubmitLoading] = useState(false);
-
+    const [form] = Form.useForm(); // Create a form instance
     const onFinish = paciente => {
         paciente.emails = emails.map((email) => ({ email }));
         paciente.telefonos = telefonos.map((telefono) => ({ telefono }));
@@ -28,6 +28,7 @@ function PacienteDrawerForm({showDrawer, setShowDrawer, fetchPacientes}) {
             .then(() => {
                 console.log("Paciente added");
                 setShowDrawer(false);
+                form.resetFields();
                 fetchPacientes();
                 successNotification("Paciente agregado");
             })
@@ -36,6 +37,7 @@ function PacienteDrawerForm({showDrawer, setShowDrawer, fetchPacientes}) {
                 errorNotification("Paciente no agregado");
                 setShowDrawer(false);
             }).finally(() => {
+
             setSubmitLoading(false);
            }
       )
@@ -100,6 +102,7 @@ function PacienteDrawerForm({showDrawer, setShowDrawer, fetchPacientes}) {
         }
     >
         <Form layout="vertical"
+              form={form}
               onFinishFailed={onFinishFailed}
               onFinish={onFinish}
               hideRequiredMark>
@@ -155,9 +158,11 @@ function PacienteDrawerForm({showDrawer, setShowDrawer, fetchPacientes}) {
                             tokenSeparators={[",", " "]}
                             onBlur={(e) => handleBlur(e.target.value)}
                         >
-                            {emails.map((email) => (
+                            {
+                                emails.map((email) => (
                                 <Option key={email}>{email}</Option>
-                            ))}
+                               ))
+                            }
                         </Select>
 
                     </Form.Item>

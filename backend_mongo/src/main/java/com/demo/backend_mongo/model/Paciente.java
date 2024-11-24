@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Date;
 import java.util.List;
 
-@Document("paciente")
+@Document("pacientes")
 @Getter
 @Setter
 public class Paciente {

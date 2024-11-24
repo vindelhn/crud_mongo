@@ -25,7 +25,7 @@ public class PacientesService {
             Paciente last = pacienteReposistory.findTopByOrderByIdDesc();
 
             Paciente newPaciente = new Paciente();
-            newPaciente.setId(last.getId() + 1 );
+            newPaciente.setId( last != null ? last.getId() + 1 : 1 );
             newPaciente.setNombre(paciente.getNombre());
             newPaciente.setApellido(paciente.getApellido());
             newPaciente.setFechaNacimiento(paciente.getFechaNacimiento());

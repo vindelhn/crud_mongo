@@ -1,15 +1,21 @@
 package com.demo.backend_mongo.service;
 
+import com.demo.backend_mongo.dto.SintomaPacienteDTO;
 import com.demo.backend_mongo.model.Paciente;
 import com.demo.backend_mongo.model.Sintoma;
 import com.demo.backend_mongo.repository.PacienteReposistory;
 import com.demo.backend_mongo.repository.SintomaReposistory;
 import com.demo.backend_mongo.request.NuevoSintoma;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
@@ -18,13 +24,15 @@ public class SintomasService {
     @Autowired
     private SintomaReposistory sintomaReposistory;
 
+
+
     public ResponseEntity<Object> createSintoma(NuevoSintoma sintoma) {
         try {
 
             Sintoma last = sintomaReposistory.findTopByOrderByIdDesc();
 
             Sintoma newSintoma = new Sintoma();
-            newSintoma.setId(last.getId() + 1);
+            newSintoma.setId(last != null ? last.getId() + 1 : 1);
             newSintoma.setNombre(sintoma.getNombre());
             newSintoma.setDescripcion(sintoma.getDescripcion());
 
